@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faScroll } from "@fortawesome/free-solid-svg-icons";
-import {faNewspaper} from "@fortawesome/free-solid-svg-icons";
 
 function New() {
     const [error, setError] = useState(null);
@@ -45,7 +44,7 @@ function New() {
                         setIsLoaded(true);
                         setOutputItems(results);
                     },
-                    
+
                     (error) => {
                         setIsLoaded(true);
                         setError(error);
@@ -63,24 +62,25 @@ function New() {
             <div>
                 <ul className="newsList">
                     <li key={item.id}>
-                        <p id="newsTitle">{item.title}</p>
-                        <p className="postUrl">Ссылка на источник: <a href={item.url}>{item.url}</a></p>
-                        <p><img className="postInImage" src={item.imageUrl}/></p>
+                        <p className="newsTitle" id="newsTitle">{item.title}</p>
+                        <p className="postUrl">Ссылка на источник: <a className="newLink" href={item.url}>{item.url}</a></p>
+                        <p><img className="postImage" src={item.imageUrl}/></p>
                         <p id="postSummary">{item.summary}</p>
                     </li>
                 </ul>
                 <hr/>
                 <p/>
-                <label id="sameNewsLbl"><FontAwesomeIcon icon={faNewspaper}/> Похожие статьи:</label>
+                <label className="sameNewsLbl" id="sameNewsLbl"> Похожие статьи:</label>
                 <p/>
                 <hr/>
                 <div>
                     <ul className="newsList">
                         {outputItems.map(itemS => (item.id!==itemS.id ?
                             <li key={itemS.id}>
-                                <p id="newsTitle"><Link id="headerNews" to={"/news/"+itemS.id}>{itemS.title}</Link></p>
+                                <p id="newsTitle"><NavLink className="newsTitleLink" id="headerNews" to={"/news/"+itemS.id}>{itemS.title}</NavLink></p>
                                 <p><img className="postImage" src={itemS.imageUrl}/></p>
                                 <p>Дата публикации: {item.publishedAt}</p>
+                                <hr/>
                             </li>
                             :""))}
                     </ul>

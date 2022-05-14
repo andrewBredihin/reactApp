@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faScroll } from "@fortawesome/free-solid-svg-icons";
-import { Link } from 'react-router-dom';
+import { faSearch, faCircleUp, faCircleDown } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from 'react-router-dom';
 
 function News() {
     const [error, setError] = useState(null);
@@ -123,20 +123,20 @@ function News() {
     } else {
         return (
             <div>
-                <div>
-                    <button className="sortBtn" onClick={()=>handleOnClickSort("_sort=publishedAt:desc")}><FontAwesomeIcon icon={faScroll}/>  Сначала новые</button>
-                    <button className="sortBtn" onClick={()=>handleOnClickSort("_sort=publishedAt:asc")}><FontAwesomeIcon icon={faScroll}/>   Сначала старые</button>
-                    <p className="searchSmth"><FontAwesomeIcon icon={faSearch}/> Поиск по заголовку: <input type="text" onChange={(e)=>handleOnClickText("title_contains="+e.target.value)}/></p>
-                    <p className="searchSmth"><FontAwesomeIcon icon={faSearch}/> Поиск по содержанию: <input type="text" onChange={(e)=>handleOnClickText("summary_contains="+e.target.value)}/></p>
+                <div className="sortAndPageBars">
+                    <p className="search"> Поиск по заголовку: <FontAwesomeIcon icon={faSearch}/> <input className="searchInput" type="text" onChange={(e)=>handleOnClickText("title_contains="+e.target.value)}/></p>
+                    <p className="search"> Поиск по содержанию: <FontAwesomeIcon icon={faSearch}/> <input className="searchInput" type="text" onChange={(e)=>handleOnClickText("summary_contains="+e.target.value)}/></p>
+                    <button className="sortBtn" onClick={()=>handleOnClickSort("_sort=publishedAt:desc")}><FontAwesomeIcon icon={faCircleUp}/>  Сначала новые</button>
+                    <button className="sortBtn" onClick={()=>handleOnClickSort("_sort=publishedAt:asc")}><FontAwesomeIcon icon={faCircleDown}/>   Сначала старые</button>
                 </div>
-                <div className="pageBar">
-                    <button className="pageBarBtnFs" onClick={()=>handlePageClick(1)}>1</button>
+                <div className="sortAndPageBars">
+                    <button className="pageBarBtn" onClick={()=>handlePageClick(1)}>1</button>
                     {pageArray.map(page => (
                         <button className="pageBarBtn" onClick={()=>handlePageClick(page)}>{page.toString()}</button>
                     ))}
                     {
                         pageCount!==1 ?
-                            <button className="pageBarBtnFs" onClick={()=>handlePageClick(pageCount)}>{pageCount}</button>
+                            <button className="pageBarBtn" onClick={()=>handlePageClick(pageCount)}>{pageCount}</button>
                             : ""
                     }
                 </div>
@@ -144,10 +144,10 @@ function News() {
                 <ul className="newsList">
                     {items.map(item => (
                         <li key={item.id}>
-                            <p id="newsTitle"><Link id="headerNews" to={"/news/"+item.id}>{item.title}</Link></p>
+                            <p className="newsTitle" id="newsTitle"><NavLink className="newsTitleLink" id="headerNews" to={"/news/"+item.id}>{item.title}</NavLink></p>
                             <p><img className="postImage" src={item.imageUrl}/></p>
                             <p>Дата публикации: {item.publishedAt}</p>
-                            <hr className="hrSplitPost"/>
+                            <hr/>
                         </li>
                     ))}
                 </ul>
