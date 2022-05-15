@@ -1,6 +1,5 @@
 import Navbar from '../components/navbar/navbar'
-import  { HashRouter, Routes, Route } from "react-router-dom";
-import Home from '../components/home/home'
+import  { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import News from '../components/news/news'
 import About from '../components/about/about'
 import New from '../components/new/new'
@@ -10,9 +9,11 @@ function Main() {
         <HashRouter>
             <Navbar></Navbar>
             <div className="content">
-
                 <Routes>
-                    <Route exact path="/" element={<Home/>}/>
+                    <Route
+                        path="/"
+                        element={<Navigate to="/news" replace />}
+                    />
                     <Route path="/news" element={<News/>}/>
                     <Route path="/about" element={<About/>}/>
                     <Route path="/news/:id" element={<New/>}/>

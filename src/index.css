@@ -105,7 +105,7 @@ code {
 }
 
 .sameNewsLbl {
-  padding-left: 20px;
+  padding-left: 40px;
 }
 
 .sortAndPageBars {
@@ -151,4 +151,8 @@ code {
 .searchInput {
   border: 2px solid black;
   border-radius: 5px;
+}
+
+.newImage {
+  width: 80%
 }

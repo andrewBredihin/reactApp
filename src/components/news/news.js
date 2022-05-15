@@ -140,7 +140,7 @@ function News() {
                             : ""
                     }
                 </div>
-                <hr className="hrSplit"/>
+                <hr/>
                 <ul className="newsList">
                     {items.map(item => (
                         <li key={item.id}>
