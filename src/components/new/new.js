@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faNewspaper} from "@fortawesome/free-solid-svg-icons";
 
 function New() {
     const [error, setError] = useState(null);
@@ -35,20 +33,18 @@ function New() {
             element.length>3 && element.toLowerCase()!=="space" ?
                 query = query+"&title_contains="+element : ""
         );
-        {
-            fetch("https://api.spaceflightnewsapi.net/v3/articles?"+query)
-                .then(ress => ress.json())
-                .then(
-                    (results) => {
-                        setIsLoaded(true);
-                        setOutputItems(results);
-                    },
-                    (error) => {
-                        setIsLoaded(true);
-                        setError(error);
-                    }
-                );
-        }
+        fetch("https://api.spaceflightnewsapi.net/v3/articles?"+query)
+            .then(ress => ress.json())
+            .then(
+                (results) => {
+                    setIsLoaded(true);
+                    setOutputItems(results);
+                },
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            );
     }
 
     if (error) {
@@ -61,22 +57,23 @@ function New() {
                 <ul className="newsList">
                     <li key={item.id}>
                         <p className="newsTitle" id="newsTitle">{item.title}</p>
+                        <p><img className="newImage" src={item.imageUrl} alt="newImage"/></p>
+                        <p className="newSummary" id="postSummary">{item.summary}</p>
                         <p className="postUrl">Ссылка на источник: <a className="newLink" href={item.url}>{item.url}</a></p>
-                        <p><img className="newImage" src={item.imageUrl}/></p>
-                        <p id="postSummary">{item.summary}</p>
+                        <p>Дата публикации: {item.publishedAt}</p>
                     </li>
                 </ul>
                 <hr/>
                 <p/>
-                <label className="sameNewsLbl" id="sameNewsLbl"><FontAwesomeIcon icon={faNewspaper}/> Похожие статьи:</label>
+                <label className="sameNewsLbl" id="sameNewsLbl">Похожие статьи:</label>
                 <p/>
                 <hr/>
                 <div>
                     <ul className="newsList">
                         {outputItems.map(itemS => (item.id!==itemS.id ?
                             <li key={itemS.id}>
-                                <p id="newsTitle"><NavLink className="newLink" id="headerNews" to={"/news/"+itemS.id}>{itemS.title}</NavLink></p>
-                                <p><img className="postImage" src={itemS.imageUrl}/></p>
+                                <p id="newsTitle"><NavLink className="newTitleLink" id="headerNews" to={"/news/"+itemS.id}>{itemS.title}</NavLink></p>
+                                <p><img className="postImage" src={itemS.imageUrl} alt="newImage"/></p>
                                 <p>Дата публикации: {itemS.publishedAt}</p>
                                 <hr />
                             </li>

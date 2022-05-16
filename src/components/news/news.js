@@ -21,7 +21,6 @@ function News() {
     }
 
     function getPageArray(num){
-
         if(num < 6){
             let temp=[];
             for (let i=0;i<=num-3;i++){
@@ -53,8 +52,6 @@ function News() {
                     (result) => {
                         setItems(result);
                     },
-                    // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
-                    // чтобы не перехватывать исключения из ошибок в самих компонентах.
                     (error) => {
                         setIsLoaded(true);
                         setError(error);
@@ -72,8 +69,6 @@ function News() {
                         setIsLoaded(true);
                         countPages(result.length)
                     },
-                    // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
-                    // чтобы не перехватывать исключения из ошибок в самих компонентах.
                     (error) => {
                         setIsLoaded(true);
                         setError(error);
@@ -85,14 +80,11 @@ function News() {
     function fetchWithFilter(){
         {
             fetch("https://api.spaceflightnewsapi.net/v3/articles?_limit=5&_start="+(((pageNumber-1)*5))+"&"+textFilter+"&"+sort)
-
                 .then(res => res.json())
                 .then(
                     (result) => {
                         setItems(result);
                     },
-                    // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
-                    // чтобы не перехватывать исключения из ошибок в самих компонентах.
                     (error) => {
                         setIsLoaded(true);
                         setError(error);
@@ -100,7 +92,7 @@ function News() {
                 )
         }
     }
-    function handleOnClickText(value){
+    function handleOnClickSearch(value){
         setFilter(true);
         setTextFilter(value);
     }
@@ -113,6 +105,7 @@ function News() {
     function handlePageClick(value){
         setPageNumber(value);
         getPageArray(pageCount);
+        document.getElementById("pageNum").textContent = value;
     }
 
 
@@ -123,28 +116,37 @@ function News() {
     } else {
         return (
             <div>
-                <div className="sortAndPageBars">
-                    <p className="search"> Поиск по заголовку: <FontAwesomeIcon icon={faSearch}/> <input className="searchInput" type="text" onChange={(e)=>handleOnClickText("title_contains="+e.target.value)}/></p>
-                    <p className="search"> Поиск по содержанию: <FontAwesomeIcon icon={faSearch}/> <input className="searchInput" type="text" onChange={(e)=>handleOnClickText("summary_contains="+e.target.value)}/></p>
-                    <button className="sortBtn" onClick={()=>handleOnClickSort("_sort=publishedAt:desc")}><FontAwesomeIcon icon={faCircleUp}/>  Сначала новые</button>
-                    <button className="sortBtn" onClick={()=>handleOnClickSort("_sort=publishedAt:asc")}><FontAwesomeIcon icon={faCircleDown}/>   Сначала старые</button>
+                <div className="newsDiv">
+                    <p className="search"> Поиск по заголовку: <input className="searchInput" id="searchInputTitle" type="text"/> <button className="searchBtn" onClick={()=>handleOnClickSearch("title_contains="+document.getElementById('searchInputTitle').value)}><FontAwesomeIcon icon={faSearch}/></button></p>
+                    <p className="search"> Поиск по содержанию: <input className="searchInput" id="searchInputSummary" type="text"/> <button className="searchBtn" onClick={()=>handleOnClickSearch("summary_contains="+document.getElementById('searchInputSummary').value)}><FontAwesomeIcon icon={faSearch}/></button></p>
+                    <button className="sortBtn" onClick={()=>handleOnClickSort("_sort=publishedAt:desc")}><FontAwesomeIcon icon={faCircleUp}/>Сначала новые</button>
+                    <button className="sortBtn" onClick={()=>handleOnClickSort("_sort=publishedAt:asc")}><FontAwesomeIcon icon={faCircleDown}/>Сначала старые</button>
                 </div>
-                <div className="sortAndPageBars">
-                    <button className="pageBarBtn" onClick={()=>handlePageClick(1)}>1</button>
-                    {pageArray.map(page => (
-                        <button className="pageBarBtn" onClick={()=>handlePageClick(page)}>{page.toString()}</button>
-                    ))}
+                <div className="newsDiv">
+                    {
+                        pageCount!==1 ?
+                            <button className="pageBarBtn" onClick={()=>handlePageClick(1)}>1</button>
+                            : ""
+                    }
+                    {
+                        pageArray.map(page => (
+                        <button className="pageBarBtn" onClick={(e)=>handlePageClick(page)}>{page.toString()}</button>
+                        ))
+                    }
                     {
                         pageCount!==1 ?
                             <button className="pageBarBtn" onClick={()=>handlePageClick(pageCount)}>{pageCount}</button>
                             : ""
                     }
                 </div>
+                <div className="newsDiv">
+                    <p className="pagesNum">Текущая страница: <p className="pagesNum" id="pageNum">1</p></p>
+                </div>
                 <hr/>
                 <ul className="newsList">
                     {items.map(item => (
                         <li key={item.id}>
-                            <p className="newsTitle" id="newsTitle"><NavLink className="newsTitleLink" id="headerNews" to={"/news/"+item.id}>{item.title}</NavLink></p>
+                            <p className="newsTitle" id="newsTitle"><NavLink className="newTitleLink" id="headerNews" to={"/news/"+item.id}>{item.title}</NavLink></p>
                             <p><img className="postImage" src={item.imageUrl}/></p>
                             <p>Дата публикации: {item.publishedAt}</p>
                             <hr/>
@@ -152,17 +154,6 @@ function News() {
                     ))}
                 </ul>
                 <hr className="hrSplit"/>
-                <div className="pageBar">
-                    <button className="pageBarBtnFs" onClick={()=>handlePageClick(1)}>1</button>
-                    {pageArray.map(page => (
-                        <button className="pageBarBtn" onClick={()=>handlePageClick(page)}>{page.toString()}</button>
-                    ))}
-                    {
-                        pageCount!==1 ?
-                            <button className="pageBarBtnFs" onClick={()=>handlePageClick(pageCount)}>{pageCount}</button>
-                            : ""
-                    }
-                </div>
             </div>
         );
     }

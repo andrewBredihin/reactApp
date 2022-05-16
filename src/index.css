@@ -17,6 +17,7 @@ code {
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
+  padding-left: 30px;
 }
 
 .navbar h1 {
@@ -74,10 +75,14 @@ code {
   text-decoration: none;
 }
 
-.newsTitleLink:hover {
+.newTitleLink {
   text-decoration: none;
-  color: red;
+  color: black;
   font-size: 20px;
+}
+
+.newTitleLink:hover {
+  color: red;
 }
 
 .postImage {
@@ -108,7 +113,7 @@ code {
   padding-left: 40px;
 }
 
-.sortAndPageBars {
+.newsDiv {
   margin-left: 40px;
 }
 
@@ -155,4 +160,41 @@ code {
 
 .newImage {
   width: 80%
+}
+
+.aboutDiv {
+  margin-left: 40px;
+  margin-top: 20px;
+}
+
+.aboutUl {
+  list-style-type: none;
+}
+
+.aboutUl {
+  font-size: 20px;
+}
+
+.searchBtn {
+  background-color: white;
+  margin-right: 5px;
+  margin-top: 5px;
+  font-size: 14px;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 3px 5px;
+  width: auto;
+}
+
+.searchBtn:hover {
+  color: red;
+  border: 2px solid red;
+}
+
+.pagesNum {
+  display: inline;
+}
+
+.newSummary {
+  font-size: 18px;
 }
