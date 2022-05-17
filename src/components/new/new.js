@@ -28,6 +28,11 @@ function New() {
             )
     }, [id,false])
 
+    function parseISOString(s) {
+        var dateStr = s.slice(0, -5);
+        return new Date(dateStr).toUTCString();
+    }
+
     function fetchSame(){
         sameIt.forEach(element =>
             element.length>3 && element.toLowerCase()!=="space" ?
@@ -60,7 +65,7 @@ function New() {
                         <p><img className="newImage" src={item.imageUrl} alt="newImage"/></p>
                         <p className="newSummary" id="postSummary">{item.summary}</p>
                         <p className="postUrl">Ссылка на источник: <a className="newLink" href={item.url}>{item.url}</a></p>
-                        <p>Дата публикации: {item.publishedAt}</p>
+                        <p>Дата публикации: {parseISOString(item.publishedAt)}</p>
                     </li>
                 </ul>
                 <hr/>
@@ -74,7 +79,7 @@ function New() {
                             <li key={itemS.id}>
                                 <p id="newsTitle"><NavLink className="newTitleLink" id="headerNews" to={"/news/"+itemS.id}>{itemS.title}</NavLink></p>
                                 <p><img className="postImage" src={itemS.imageUrl} alt="newImage"/></p>
-                                <p>Дата публикации: {itemS.publishedAt}</p>
+                                <p>Дата публикации: {parseISOString(itemS.publishedAt)}</p>
                                 <hr />
                             </li>
                             :""))}

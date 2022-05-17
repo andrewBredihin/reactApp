@@ -156,6 +156,8 @@ code {
 .searchInput {
   border: 2px solid black;
   border-radius: 5px;
+  width: 200px;
+  padding: 2px 5px;
 }
 
 .newImage {
@@ -180,15 +182,13 @@ code {
   margin-right: 5px;
   margin-top: 5px;
   font-size: 14px;
-  border: 2px solid black;
-  border-radius: 10px;
+  border: none;
   padding: 3px 5px;
   width: auto;
 }
 
 .searchBtn:hover {
   color: red;
-  border: 2px solid red;
 }
 
 .pagesNum {
