@@ -107,10 +107,10 @@ function News() {
                                     <hr/>
                                 </li>
                             ))
-                            : <div className="aboutDiv">
+                            :
+                            <div className="aboutDiv">
                                 <h1>Страница не найдена</h1>
-                                </div>
-
+                            </div>
                     }
                 </ul>
                 <hr className="hrSplit"/>
